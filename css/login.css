@@ -1,0 +1,19 @@
+/**
+ * Project: WeidigWahl
+ * Author: AlexanderKaschta
+ * License: MIT License
+ */
+.login-form{
+    width: 100%;
+    max-width: 330px;
+    margin: 0 auto;
+}
+
+.login-button{
+    width: 100%;
+    max-width: 330px;
+}
+
+.password{
+    margin: 24px auto auto;
+}
