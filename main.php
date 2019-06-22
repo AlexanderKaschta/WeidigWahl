@@ -126,7 +126,7 @@ if (isset($_SESSION['loggedin'])){
                         echo '
                     <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false">
                             <title>'.$row["name_wahl"].'</title>
                             <rect fill="#19355c" width="100%" height="100%"></rect>
                             <text fill="#eceeef" dy=".3em" x="50%" y="50%" text-anchor="middle">'.$row["name_wahl"].'</text>
@@ -147,7 +147,7 @@ if (isset($_SESSION['loggedin'])){
                     echo '
                     <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" >
                             <title>Neue Wahl</title>
                             <rect fill="#19355c" width="100%" height="100%"></rect>
                             <text fill="#eceeef" dy=".3em" x="50%" y="50%" text-anchor="middle">Neue Wahl</text>
@@ -166,7 +166,7 @@ if (isset($_SESSION['loggedin'])){
                     echo '
                     <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false">
                             <title>Schüler</title>
                             <rect fill="#19355c" width="100%" height="100%"></rect>
                             <text fill="#eceeef" dy=".3em" x="50%" y="50%" text-anchor="middle">Schüler</text>
@@ -200,7 +200,7 @@ tbl_teilnehmer.wahl_id = tbl_sportwahl.id AND tbl_teilnehmer.benutzer = :id AND 
                         echo '
                     <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <svg class="card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false">
                             <title>'.$row["name_wahl"].'</title>
                             <rect fill="#19355c" width="100%" height="100%"></rect>
                             <text fill="#eceeef" dy=".3em" x="50%" y="50%" text-anchor="middle">'.$row["name_wahl"].'</text>
