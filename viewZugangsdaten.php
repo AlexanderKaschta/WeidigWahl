@@ -11,7 +11,7 @@ include_once "core/config.php";
 
 session_start();
 
-$pageTitle = "Zugangsdaten auslesen";
+$pageTitle = "Zugangsdaten ausgeben";
 
 if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET['id'])) {
     if ($_SESSION['loggedin'] == 1 && $_SESSION['admin'] == 1) {
@@ -90,9 +90,9 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
                     echo "<p>Es gibt keine Daten, die ausgegeben werden können.</p>";
                 }else{
 
-                    echo "<div class='table-responsive'><table class='table'><thead><tr><th>Klasse</th><th>Nachname</th><th>Vorname</th><th>Passwort</th></tr></thead><tbody>";
+                    echo "<div class='table-responsive'><table class='table'><thead><tr><th>Vorname</th><th>Nachname</th><th>Klasse</th><th>Benutzername</th><th>Passwort</th></tr></thead><tbody>";
                     while ($data = $dataQuery->fetch()){
-                        echo "<tr><td>".$data['klasse']."</td><td>".$data['nachname']."</td><td>".$data['vorname']."</td><td>".$data['passwort']."</td></tr>";
+                        echo "<tr><td>".$data['vorname']."</td><td>".$data['nachname']."</td><td>".$data['klasse']."</td><td>".$data['benutzername']."</td><td>".$data['passwort']."</td></tr>";
                     }
                     echo "</tbody></table></div>";
                 }

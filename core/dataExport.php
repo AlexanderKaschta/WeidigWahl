@@ -28,7 +28,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
 
         if ($_GET['action'] == 1){
 
-            $query = $pdo->prepare("SELECT tbl_users.vorname, tbl_users.nachname, tbl_users.klasse, tbl_users.jahrgang, tbl_users.passwort FROM tbl_users, tbl_teilnehmer WHERE tbl_users.id = tbl_teilnehmer.benutzer AND tbl_teilnehmer.wahl_id = :wahl ORDER BY jahrgang, klasse, nachname, vorname;");
+            $query = $pdo->prepare("SELECT tbl_users.vorname, tbl_users.nachname, tbl_users.klasse, tbl_users.jahrgang, tbl_users.benutzername, tbl_users.passwort FROM tbl_users, tbl_teilnehmer WHERE tbl_users.id = tbl_teilnehmer.benutzer AND tbl_teilnehmer.wahl_id = :wahl ORDER BY jahrgang, klasse, nachname, vorname;");
             $query->bindParam(":wahl", $_GET['id']);
             $query->execute();
 

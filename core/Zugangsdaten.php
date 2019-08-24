@@ -11,7 +11,7 @@ include_once "config.php";
 
 session_start();
 
-class zugangsdaten extends tFPDF{
+class Zugangsdaten extends tFPDF{
 
     function LoadData($id){
         $db = new Database();
@@ -72,7 +72,7 @@ class zugangsdaten extends tFPDF{
 if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id'])) {
     if ($_SESSION['loggedin'] == 1 && isset($_SESSION['benutzer']) && $_SESSION['admin'] == 1) {
 
-        $pdf = new zugangsdaten();
+        $pdf = new Zugangsdaten();
         $header = array('Vorname', 'Nachname', 'Klasse', 'Benutzername' , 'Passwort');
         $data = $pdf->LoadData($_GET['id']);
         $pdf->SetTitle("Zugangsdaten");
