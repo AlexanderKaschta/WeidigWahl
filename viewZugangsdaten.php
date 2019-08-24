@@ -100,7 +100,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
             </div>
             <div class="card-footer">
                 <a class="btn btn-light" target="_blank" href="core/dataExport.php?action=1&id=<?php echo $_GET['id']; ?>"><i class="fas fa-file-download fa-sm fa-fw"></i>&nbsp;Daten als .csv-Datei herunterladen</a>
-                <a class="btn btn-light" target="_blank" href="core/zugangsdaten.php?id=<?php echo $_GET['id']; ?>"><i class="fas fa-file-download fa-sm fa-fw"></i>&nbsp;Daten als .pdf-Datei herunterladen</a>
+                <a class="btn btn-light" target="_blank" href="core/Zugangsdaten.php?id=<?php echo $_GET['id']; ?>"><i class="fas fa-file-download fa-sm fa-fw"></i>&nbsp;Daten als .pdf-Datei herunterladen</a>
             </div>
         </div>
         <br>

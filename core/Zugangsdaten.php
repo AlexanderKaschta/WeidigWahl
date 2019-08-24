@@ -17,7 +17,7 @@ class zugangsdaten extends tFPDF{
         $db = new Database();
         $pdo = $db->connect();
 
-        $query = $pdo->prepare("SELECT tbl_users.vorname, tbl_users.nachname, tbl_users.klasse, tbl_users.jahrgang, tbl_users.benutzername, tbl_users.passwort FROM tbl_users, tbl_teilnehmer WHERE tbl_users.id = tbl_teilnehmer.benutzer AND tbl_teilnehmer.wahl_id = :wahl ORDER BY jahrgang, klasse, nachname, vorname;");
+            $query = $pdo->prepare("SELECT tbl_users.vorname, tbl_users.nachname, tbl_users.klasse, tbl_users.benutzername, tbl_users.passwort FROM tbl_users, tbl_teilnehmer WHERE tbl_users.id = tbl_teilnehmer.benutzer AND tbl_teilnehmer.wahl_id = :wahl ORDER BY klasse, nachname, vorname;");
         $query->bindParam(":wahl", $id);
         $query->execute();
 
@@ -37,10 +37,10 @@ class zugangsdaten extends tFPDF{
         $this->SetFont('DejaVuB','',7);
         $index = 1;
         foreach($header as $col){
-            if($index == 3 || $index == 4){
+            if($index == 3){
                 $this->Cell(26,7,$col,1);
-            } else if ($index == 5){
-                $this->Cell(32,7,$col,1);
+            } else if ($index == 4){
+                $this->Cell(58,7,$col,1);
             } else{
                 $this->Cell(28,7,$col,1);
             }
@@ -54,10 +54,10 @@ class zugangsdaten extends tFPDF{
         {
             $index = 1;
             foreach($row as $col){
-                if($index == 3 || $index == 4){
+                if($index == 3){
                     $this->Cell(26,7,$col,1);
-                } else if ($index == 5){
-                    $this->Cell(32,7,$col,1);
+                } else if ($index == 4){
+                    $this->Cell(58,7,$col,1);
                 } else{
                     $this->Cell(28,7,$col,1);
                 }
@@ -73,7 +73,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
     if ($_SESSION['loggedin'] == 1 && isset($_SESSION['benutzer']) && $_SESSION['admin'] == 1) {
 
         $pdf = new zugangsdaten();
-        $header = array('Vorname', 'Nachname', 'Klasse', 'Jahrgang', 'Benutzername' , 'Passwort');
+        $header = array('Vorname', 'Nachname', 'Klasse', 'Benutzername' , 'Passwort');
         $data = $pdf->LoadData($_GET['id']);
         $pdf->SetTitle("Zugangsdaten");
         $pdf->SetAuthor("WeidigWahl");
