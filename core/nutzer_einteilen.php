@@ -107,7 +107,6 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
             $teilnehmerQuery1->bindParam(":id", $_GET['id']);
             $teilnehmerQuery1->execute();
 
-
             while ($teilnehmer = $teilnehmerQuery1->fetch(PDO::FETCH_ASSOC)) {
                 //echo "Analysiere den Nutzer " . $teilnehmer['benutzer'] . "\n";
                 $kurs_gefunden = false;
@@ -153,7 +152,6 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
                     $insertIntoReste->execute();
                 }
             }
-
             //Kontrolliere, ob man innerhalb der Zeitleiste noch etwas optimieren kann
 
             //Kontrolliere, ob es überfüllte Kurse gibt
@@ -164,89 +162,55 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
             $kursControllQuery->bindParam(":bis", $zeitleiste['bis']);
             $kursControllQuery->execute();
 
-            //echo "\n Probiere die Ergebnisse zu optimieren";
+            //Probiere die Ergebnisse zu optimieren
 
             //Durchgehe alle Kurse aus der Abfrage
             while ($kurs = $kursControllQuery->fetch(PDO::FETCH_ASSOC)) {
-                //echo "Bearbeite Kurs";
 
-                $kursTeilnehmerAnzahlQuery = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) As anzahl FROM tbl_ergebnisse WHERE sportwahl=:wahl AND kurs= :kurs AND akzeptiert = 1;");
-                $kursTeilnehmerAnzahlQuery->bindParam(":wahl", $_GET['id']);
-                $kursTeilnehmerAnzahlQuery->bindParam(":kurs", $kurs['id']);
-                $kursTeilnehmerAnzahlQuery->execute();
-
-                $kursTeilnehmerRow = $kursTeilnehmerAnzahlQuery->fetch();
-                $teilnehmerAnzahl = $kursTeilnehmerRow['anzahl'];
-
-                //Wenn es mehr Teilnehmer im Kurs gibt als er maximale Plätze hat, dann ist er überfüllt
-                $max_platz = (int)$kurs['max'];
-                if ($max_platz < $teilnehmerAnzahl) {
-                    //echo "Der Kurs" . $kurs['name'] . " ist überfüllt";
+                if (istUeberfullt($pdo, $kurs['id'], false) == true) {
                     //Wenn er überfüllt ist, dann suche nach Teilnehmer, die noch andere Kurse besuchen möchten
-                    $ist_uberfullt = true;
 
                     for ($i = 1; $i < $anzahl_Benutzereingaben; $i++) {
 
-                        $nutzerAbfrage = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl=:id AND stimmnummer <=:nr AND kurs = :kurs AND akzeptiert = 1;");
+                        $nutzerAbfrage = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl=:id AND  kurs = :kurs AND akzeptiert = 1;");
                         $nutzerAbfrage->bindParam(":id", $_GET['id']);
-                        $nutzerAbfrage->bindParam(":nr", $i);
                         $nutzerAbfrage->bindParam(":kurs", $kurs['id']);
                         $nutzerAbfrage->execute();
 
-                        while ($nutzer = $nutzerAbfrage->fetch(PDO::FETCH_ASSOC) && $ist_uberfullt == true) {
-                            //Kontrolliere, ob der nächste Kurs ein Kurs ist, der im aktuellen Zeitfenster liegt und
-                            $passenderKursQuery = $pdo->prepare("SELECT * FROM tbl_ergebnisse, tbl_kurse WHERE tbl_ergebnisse.kurs = tbl_kurse.id AND tbl_ergebnisse.benutzer = :benutzer AND tbl_ergebnisse.stimmnummer = :nr AND tbl_kurse.von = :von AND tbl_kurse.bis = :bis;");
-                            $passenderKursQuery->bindParam(":benutzer", $nutzer['benutzer']);
-                            $zahl = $i + 1;
-                            $passenderKursQuery->bindParam(":von", $zeitleiste['von']);
-                            $passenderKursQuery->bindParam(":bis", $zeitleiste['bis']);
-                            $passenderKursQuery->execute();
+                        while ($nutzer = $nutzerAbfrage->fetch()) {
 
-                            $passenderKursZeilen = $passenderKursQuery->rowCount();
+                            // Wenn der Kurs überfüllt ist
+                            if (istUeberfullt($pdo, $kurs['id'], false)) {
+                                //Schaue, ob die nächste Stimme ein Kurs ist, der noch nicht überfüllt ist.
 
-                            //Wenn es einen solchen Kurs gibt
-                            if ($passenderKursZeilen == 1) {
-                                //Aktualisiere den Kurs
-                                $update1Query = $pdo->prepare("UPDATE tbl_ergebnisse SET akzeptiert = 0 WHERE sportwahl=:wahl AND benutzer=:benutzer AND akzeptiert = 1;");
-                                $update1Query->bindParam(":wahl", $_GET['id']);
-                                $update1Query->bindParam(":benutzer", $nutzer['benutzer']);
-                                $update1Query->execute();
+                                $nextKurs = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl = :id AND stimmnummer = :nr AND benutzer = :nutzer;");
+                                $nextKurs->bindParam(":id", $_GET['id']);
+                                $zahl = $i + 1;
+                                $nextKurs->bindParam(":nr", $zahl);
+                                $nextKurs->bindParam(":nutzer", $nutzer['benutzer']);
+                                $nextKurs->execute();
 
-                                $update2Query = $pdo->prepare("UPDATE tbl_ergebnisse SET akzeptiert = 1 WHERE sportwahl=:wahl AND benutzer=:benutzer AND kurs=:kurs;");
-                                $update2Query->bindParam(":wahl", $_GET['id']);
-                                $update2Query->bindParam(":benutzer", $nutzer['benutzer']);
-                                $update2Query->bindParam(":kurs", $kurs['id']);
-                                $update2Query->execute();
-                                //und kontrolliere, ob der Kurs immer noch überfüllt ist
+                                //Spalte mit den entsprechenden Infos zum alternativen Kurs
+                                $nextKursRow = $nextKurs->fetch();
 
-                                $kursTeilnehmerAnzahlQuery2 = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) As anzahl FROM tbl_ergebnisse WHERE sportwahl=:wahl AND kurs= :kurs AND akzeptiert = 1;");
-                                $kursTeilnehmerAnzahlQuery2->bindParam(":wahl", $_GET['id']);
-                                $kursTeilnehmerAnzahlQuery2->bindParam(":kurs", $kurs['id']);
-                                $kursTeilnehmerAnzahlQuery2->execute();
+                                if (istUeberfullt($pdo, (int)$nextKursRow['kurs'], true) == false) {
+                                    //Verschiebe den Schüler in den passenden Kurs
 
-                                $kursTeilnehmerRow2 = $kursTeilnehmerAnzahlQuery2->fetch();
-                                $teilnehmerAnzahl2 = $kursTeilnehmerRow2['anzahl'];
-
-                                if ($kurs['max'] < $teilnehmerAnzahl2) {
-
-                                    $ist_uberfullt = true;
-                                } else {
-                                    $ist_uberfullt = false;
-                                    break;
+                                    kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$kurs['id'], 0);
+                                    kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$nextKursRow['kurs'], 1);
                                 }
-
+                                $nextKurs->closeCursor();
+                                $nextKursRow = null;
+                                $nextKurs = null;
                             }
-
-
                         }
-
-
+                        $nutzerAbfrage->closeCursor();
+                        $nutzerAbfrage = null;
                     }
 
                 }
-
             }
-            if ($zeitleistenIndex == $zeitgruppen){
+            if ($zeitleistenIndex == $zeitgruppen) {
                 //Fertig mit der Einteilung
                 header("Location: ../viewEinteilung.php?id=" . $_GET['id']);
                 exit();
@@ -262,10 +226,60 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
         header("Location: ../index.php?errorCode=1 ");
         exit();
     }
-
 } else {
     session_destroy();
     header("Location: ../index.php?errorCode=1 ");
     exit();
 }
 
+
+function istUeberfullt(PDO $pdo, int $kurs, bool $wantToAdd)
+{
+
+    $kursAbfrage = $pdo->prepare("SELECT * FROM tbl_kurse WHERE id = :kurs;");
+    $kursAbfrage->bindParam(":kurs", $kurs);
+    $kursAbfrage->execute();
+    $kursRow = $kursAbfrage->fetch();
+
+    $kursTeilnehmerAnzahlQuery = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) As anzahl FROM tbl_ergebnisse WHERE kurs= :kurs AND akzeptiert = 1;");
+    $kursTeilnehmerAnzahlQuery->bindParam(":kurs", $kursRow['id']);
+    $kursTeilnehmerAnzahlQuery->execute();
+
+    $kursTeilnehmerRow = $kursTeilnehmerAnzahlQuery->fetch();
+    $teilnehmerAnzahl = $kursTeilnehmerRow['anzahl'];
+
+    $max_platz = (int)$kursRow['max'];
+
+    $kursAbfrage->closeCursor();
+    $kursAbfrage = null;
+
+    $kursTeilnehmerAnzahlQuery->closeCursor();
+    $kursTeilnehmerAnzahlQuery = null;
+
+    if ($wantToAdd == true) {
+        if ($max_platz <= $teilnehmerAnzahl) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if ($max_platz < $teilnehmerAnzahl) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}
+
+function kursAndernTeilnehmer(PDO $pdo, int $wahl, int $benutzer, int $kurs, int $status)
+{
+
+    $updateQuery = $pdo->prepare("UPDATE tbl_ergebnisse SET akzeptiert = :eingabe WHERE sportwahl=:wahl AND benutzer=:benutzer AND kurs=:kurs;");
+    $updateQuery->bindParam(":wahl", $wahl);
+    $updateQuery->bindParam(":eingabe", $status);
+    $updateQuery->bindParam(":kurs", $kurs);
+    $updateQuery->bindParam(":benutzer", $benutzer);
+    $updateQuery->execute();
+
+}
