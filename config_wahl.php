@@ -273,6 +273,17 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin'])) {
 
         <div class="card">
             <div class="card-body">
+                <h4 class="card-title">Statistik der Wahl</h4>
+                <p>Hier können vor dem Beginn der Auswertung Daten über das Wahlverhalten eingesehen werden.</p>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-light" href="statistik.php?id=<?php echo $id; ?>"><i class="fas fa-chart-bar fa-sm fa-fw"></i>&nbsp;Statistik ansehen</a>
+            </div>
+        </div>
+        <br>
+
+        <div class="card">
+            <div class="card-body">
                 <h4 class="card-title">Zugangsdaten der Wahl</h4>
                 <p>Damit die Schüler gleich mit der Wahl beginnen können, können hier die Zugangsdaten ausgegeben werden.</p>
             </div>

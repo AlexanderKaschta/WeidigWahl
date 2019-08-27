@@ -18,7 +18,7 @@ inputs and calculates the best result, which helps to save time for other things
 - TFPDF
 - Popper.js
 - jQuery
-
+- Chart.js
 
 ## License
 MIT License
