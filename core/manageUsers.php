@@ -23,6 +23,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
         }
 
         if ((int)$_GET['action'] == 1){
+            //Lösche alle Accounts, die keine Administrator-Rechte besitzen.
             $deleteQuery = $pdo->prepare("DELETE FROM tbl_users WHERE ist_admin = 0;");
             $deleteQuery->execute();
             header("Location: ../manage_students.php?errorCode=1");
