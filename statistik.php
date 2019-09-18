@@ -74,7 +74,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
         <a href="config_wahl.php?id=<?php echo $_GET['id']; ?>" class="btn btn-primary" style="margin-bottom: 32px;"><i
                     class="fas fa-chevron-left fa-sm fa-fw"></i>&nbsp;Zurück zur Übersicht</a>
         <p>Dies ist die Statistik zum Zeitpunkt <?php echo date("d.m.Y H:i:s", time()); ?>. Zum Aktualisieren einfach
-            <b>F5</b> drücken.</p>
+            <kbd>F5</kbd> drücken.</p>
         <canvas id="votesChart" width="400" height="400"></canvas>
         <?php
         //First data query
