@@ -26,7 +26,6 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
             exit();
         }
 
-
     } else {
         session_destroy();
         header("Location: index.php?errorCode=1 ");
@@ -74,31 +73,32 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
         <h1 class="title_style">Statistik zur Wahl</h1>
         <a href="config_wahl.php?id=<?php echo $_GET['id']; ?>" class="btn btn-primary" style="margin-bottom: 32px;"><i
                     class="fas fa-chevron-left fa-sm fa-fw"></i>&nbsp;Zurück zur Übersicht</a>
-        <p>Dies ist die Statistik zum Zeitpunkt <?php echo date("d.m.Y H:i:s", time());?>. Zum Aktualisieren einfach <b>F5</b> drücken.</p>
+        <p>Dies ist die Statistik zum Zeitpunkt <?php echo date("d.m.Y H:i:s", time()); ?>. Zum Aktualisieren einfach
+            <b>F5</b> drücken.</p>
         <canvas id="votesChart" width="400" height="400"></canvas>
         <?php
-            //First data query
-            $kurse = $pdo->prepare("SELECT * FROM tbl_kurse WHERE sportwahl = :id;");
-            $kurse->bindParam(":id", $_GET['id']);
-            $kurse->execute();
+        //First data query
+        $kurse = $pdo->prepare("SELECT * FROM tbl_kurse WHERE sportwahl = :id;");
+        $kurse->bindParam(":id", $_GET['id']);
+        $kurse->execute();
 
-            $kursNamen = array();
-            $kursAnzahl = array();
+        $kursNamen = array();
+        $kursAnzahl = array();
 
-            //Durchgehe jeden Kurs
-            while ($kurs = $kurse->fetch()){
-                array_push($kursNamen, $kurs['name']);
+        //Durchgehe jeden Kurs
+        while ($kurs = $kurse->fetch()) {
+            array_push($kursNamen, $kurs['name']);
 
-                $anzahlAbfrage = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) AS Anzahl FROM tbl_ergebnisse WHERE sportwahl = :id AND stimmnummer = 1 AND kurs = :kurs;");
-                $anzahlAbfrage->bindParam(":id", $_GET['id']);
-                $anzahlAbfrage->bindParam(":kurs", $kurs['id']);
-                $anzahlAbfrage->execute();
-                $anzahl = $anzahlAbfrage->fetch();
-                array_push($kursAnzahl, (int)$anzahl['Anzahl']);
-                $anzahlAbfrage->closeCursor();
-                $anzahlAbfrage = null;
-                $anzahl = null;
-            }
+            $anzahlAbfrage = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) AS Anzahl FROM tbl_ergebnisse WHERE sportwahl = :id AND stimmnummer = 1 AND kurs = :kurs;");
+            $anzahlAbfrage->bindParam(":id", $_GET['id']);
+            $anzahlAbfrage->bindParam(":kurs", $kurs['id']);
+            $anzahlAbfrage->execute();
+            $anzahl = $anzahlAbfrage->fetch();
+            array_push($kursAnzahl, (int)$anzahl['Anzahl']);
+            $anzahlAbfrage->closeCursor();
+            $anzahlAbfrage = null;
+            $anzahl = null;
+        }
 
         ?>
         <script>
@@ -130,22 +130,22 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
             <div class="card-body">
                 <h4 class="card-title">Fakten</h4>
                 <?php
-                    $stimmenAnzahl = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) AS Anzahl FROM tbl_ergebnisse WHERE sportwahl = :id;");
-                    $stimmenAnzahl->bindParam(":id", $_GET['id']);
-                    $stimmenAnzahl->execute();
-                    $stimmen = $stimmenAnzahl->fetch();
+                $stimmenAnzahl = $pdo->prepare("SELECT COUNT(tbl_ergebnisse.id) AS Anzahl FROM tbl_ergebnisse WHERE sportwahl = :id;");
+                $stimmenAnzahl->bindParam(":id", $_GET['id']);
+                $stimmenAnzahl->execute();
+                $stimmen = $stimmenAnzahl->fetch();
                 ?>
                 <p>Abgegebene Stimmen: <?php echo $stimmen['Anzahl']; ?></p>
                 <p>Nutzer, die noch keine Stimme abgegeben haben:</p>
                 <?php
-                    $nutzerOhneEingabe = $pdo->prepare("SELECT tbl_teilnehmer.id, tbl_users.id, tbl_users.vorname, tbl_users.nachname FROM tbl_teilnehmer LEFT JOIN tbl_ergebnisse ON tbl_ergebnisse.benutzer = tbl_teilnehmer.benutzer LEFT JOIN tbl_users ON tbl_teilnehmer.benutzer = tbl_users.id
+                $nutzerOhneEingabe = $pdo->prepare("SELECT tbl_teilnehmer.id, tbl_users.id, tbl_users.vorname, tbl_users.nachname FROM tbl_teilnehmer LEFT JOIN tbl_ergebnisse ON tbl_ergebnisse.benutzer = tbl_teilnehmer.benutzer LEFT JOIN tbl_users ON tbl_teilnehmer.benutzer = tbl_users.id
 WHERE tbl_ergebnisse.id IS NULL AND tbl_teilnehmer.wahl_id = :nr;");
-                    $nutzerOhneEingabe->bindParam(":nr", $_GET['id']);
-                    $nutzerOhneEingabe->execute();
+                $nutzerOhneEingabe->bindParam(":nr", $_GET['id']);
+                $nutzerOhneEingabe->execute();
 
-                    while ($row = $nutzerOhneEingabe->fetch()){
-                        echo "<p>".$row['vorname']." ".$row['nachname']."</p>";
-                    }
+                while ($row = $nutzerOhneEingabe->fetch()) {
+                    echo "<p>" . $row['vorname'] . " " . $row['nachname'] . "</p>";
+                }
 
                 ?>
             </div>
