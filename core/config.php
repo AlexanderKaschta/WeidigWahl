@@ -8,7 +8,7 @@
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASSWORT", "");
-define("DB_NAME", "dev");
+define("DB_NAME", "weidigwahl");
 
 define("PROJECT_NAME", "WeidigWahl");
 
