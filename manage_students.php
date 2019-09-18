@@ -77,7 +77,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer'])) {
         if ($errorMessage == 1) {
             $errorMessage = '    <div class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        Alle Benutzer gelöscht
+        Alle Benutzer wurden erfolgreich gelöscht!
     </div>';
             echo $errorMessage;
         } else if ($errorMessage == 2) {
@@ -93,12 +93,12 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer'])) {
         } else if ($errorMessage == 4) {
             $errorMessage = '<div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-        Nutzer erfogreich hinzugefügt.</div>';
+        Der Nutzer wurde erfogreich hinzugefügt.</div>';
             echo $errorMessage;
         } else if ($errorMessage == 4) {
             $errorMessage = '<div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-        Nutzer erfogreich bearbeitet.</div>';
+        Der Nutzer wurde erfogreich bearbeitet.</div>';
             echo $errorMessage;
         }
 
