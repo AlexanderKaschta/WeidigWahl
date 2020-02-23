@@ -23,7 +23,7 @@ inputs and calculates the best result, which helps to save time for other things
 ## License
 MIT License
 
-Copyright (c) 2019 Alexander Kaschta
+Copyright (c) 2019-2020 Alexander Kaschta
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
