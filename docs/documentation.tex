@@ -1,0 +1,627 @@
+\documentclass[ngerman]{ltxdoc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+%\OnlyDescription
+
+\usepackage{parskip}
+\usepackage{setspace}
+\usepackage{xspace}
+\onehalfspacing
+
+\usepackage{etoolbox}
+\usepackage{ifxetex}
+\usepackage{ifluatex}
+
+\ifboolexpr{bool {xetex} or bool {luatex}}{
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+
+  \newcounter{fontsnotfound}
+  \newcommand{\checkfont}[1]{%
+    \suppressfontnotfounderror=1%
+    \font\x = "#1" at 10pt
+    \selectfont
+    \ifx\x\nullfont%
+      \stepcounter{fontsnotfound}%
+    \fi%
+    \suppressfontnotfounderror=0%
+  }
+
+  \newcommand{\iffontsavailable}[3]{%
+    \setcounter{fontsnotfound}{0}%
+    \expandafter\forcsvlist\expandafter%
+    \checkfont\expandafter{#1}%
+    \ifnum\value{fontsnotfound}=0%
+      #2%
+    \else%
+      #3%
+    \fi%
+  }
+  \iffontsavailable{Fira Sans Light,%
+                Fira Sans Light Italic,%
+                Fira Sans,%
+                Fira Sans Italic}{%
+    \setmainfont[BoldFont={Fira Sans}]{Fira Sans Light}%
+  }{%
+    \iffontsavailable{Fira Sans Light OT,%
+                  Fira Sans Light Italic OT,%
+                  Fira Sans OT,%
+                  Fira Sans Italic OT}{%
+      \setmainfont[BoldFont={Fira Sans OT}]{Fira Sans Light OT}%
+    }{%
+      \typeout{%
+        Could not find Fira Sans fonts. Creating documentation%
+        with standard fonts.%
+      }
+    }
+  }
+  \iffontsavailable{Fira Mono, Fira Mono Bold}{%
+    \setmonofont{Fira Mono}%
+  }{%
+    \iffontsavailable{Fira Mono OT, Fira Mono Bold OT}{%
+      \setmonofont{Fira Mono OT}%
+    }{%
+      \typeout{%
+        Could not find Fira Sans fonts. Creating documentation%
+        with standard monospaced fonts.%
+      }
+    }
+  }
+}{
+  \typeout{%
+    You need to compile with XeLaTeX or LuaLaTeX to use the Fira fonts.%
+  }
+}
+
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep}
+\setlist[enumerate]{noitemsep}
+
+\usepackage{xcolor}
+\definecolor{mDarkBrown}{HTML}{604c38}
+\definecolor{mDarkTeal}{HTML}{23373b}
+\definecolor{mLightBrown}{HTML}{EB811B}
+\definecolor{mLightGreen}{HTML}{14B03D}
+\definecolor{mBackground}{HTML}{FFFFFF}
+
+\usepackage{listings}
+
+\lstdefinestyle{license}{
+  basicstyle=\fontsize{7}{11}\selectfont\ttfamily,
+  breaklines=true
+}
+
+\lstdefinestyle{tex}{
+  language=[LaTeX]{TeX},
+  basicstyle=\ttfamily,
+  keywordstyle=\color{mLightBrown}\bfseries,
+  commentstyle=\color{mLightGreen},
+  stringstyle=\color{mLightGreen},
+  backgroundcolor=\color{mBackground},
+  numbers=none,
+  numberstyle=\tiny\ttfamily,
+  stepnumber=2,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=none,
+  framerule=1pt,
+  tabsize=2,
+  rulesep=5em,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  framexleftmargin=0em,
+  framexrightmargin=0em,
+  xleftmargin=0em,
+  xrightmargin=0em,
+  aboveskip=1em,
+  belowskip=1em,
+  morekeywords={usetheme,institute,maketitle,@metropolis@titleformat,%
+                plain,setbeamercolor,metroset,setsansfont,setmonofont},
+}
+
+
+\lstMakeShortInline|
+\usepackage{metalogo}
+
+\usepackage[colorlinks=true,
+            linkcolor=mLightBrown,
+            menucolor=mLightBrown,
+            pagecolor=mLightBrown,
+            urlcolor=mLightBrown]{hyperref}
+
+\newcommand{\DescribeOption}[4]{
+  \DescribeMacro{#1}
+  \begin{minipage}[t]{\textwidth}
+    \textit{\textbf{\textcolor{mLightGreen}{#2}}}\dotfill\,#3\par
+    \begingroup
+    \vspace{0.5em}#4\par
+    \endgroup
+  \end{minipage}
+}
+
+\newcommand{\name}{\textbf{\textsc{WeidigWahl}}\xspace}
+
+\title{Technische Dokumentation der Software \name}
+\author{Alexander Kaschta \\ \url{https://github.com/AlexanderKaschta}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Einführung}
+
+Dies ist die technische Dokumentation von \name. \name entstand im Ramen des
+Informatikunterrichts und dient zur einfachen Durchführung von Kurswahlen an Schulen.
+Die Anwendung ist webbasiert und läuft dann im Internet.
+
+Die Schüler bzw. Teilnehmer kriegen am Anfang Zugangsdaten zu der Platform, wo
+sie sich dann anmelden können. Dort finden sie allerlei Informationen zu der Wahl
+und zu allen Kursen, die zur Auswahl stehen. Dort können die Schüler bis zu einer
+festgelegten Deadline ihre Stimme oder Stimmen abgeben, welche Kurse sie gerne
+besuchen würden. Sobald die Wahl dann abgelaufen ist, kann dann die Wahl
+elektronisch ausgewertet werden.
+
+Das System hat den Vorteil, dass man sich sehr viel Papier sparen kann. Denn es
+wird keinerlei Papier mehr benötigt. Außerdem ist die Auswertung sehr einfach, da
+man die Einteilung nicht selbst macht, sondern ein Algorithmus die Aufgabe übernimmt.
+Dieser ist deutlich schneller und beachtet alle von den Schülern abgegebenen Wünsche.
+Natürlich kann das System nicht alle Wünsche erfüllen, aber die Ursache der Problematik
+liegt im Ursprung des Problems der Einteilung und würde auch bei einer manuellen
+Wahl nicht verhindert werden können.
+
+\section{Installation}
+
+\subsection{Systemanforderungen}
+
+Zur Installation von \name werden folgende Komponenten benötigt:
+
+\begin{itemize}
+  \item \href{http://httpd.apache.org/}{Apache HTTP Server} oder ähnlicher Server
+  \item \href{https://www.php.net/}{PHP} 7+
+  \item \href{https://mariadb.org/}{MariaDB} oder \href{https://www.mysql.com/}{MySQL}\footnote{Nicht getestet}
+  \item PDO-Erweiterung für \href{https://www.php.net/}{PHP}
+  \item PDO-MySQL-Treiber für \href{https://www.php.net/}{PHP}
+  \item \href{https://www.phpmyadmin.net/}{phpMyAdmin}
+  \item Ein Texteditor
+\end{itemize}
+
+Optional bzw. nach Bedarf:
+
+\begin{itemize}
+  \item \href{https://git-scm.com/}{Git}
+  \item FTP-Client
+\end{itemize}
+
+\subsection{Installation}
+
+Zum Beginn der Installation muss man sich eine Kopie des Software-Pakets besorgen.
+Dies kann auf zwei Arten passieren. Man kann den Quellcode entweder mittels \href{https://git-scm.com/}{Git}
+auf die eigene Festplatte klonen oder direkt als Zip-Paket vom
+\href{https://github.com/AlexanderKaschta/WeidigWahl}{GitHub-Repository}\footnote{\url{https://github.com/AlexanderKaschta/WeidigWahl}} herunterladen.
+
+Zum Download der Zip-Datei öffnet man den Link zum Repository im Internet-Browsers
+seines Vertrauens. Dort muss man zuerst auf \glqq Clone or download \grqq und dann
+auf \glqq Download Zip \grqq klicken. Nach dem Download muss die entsprechende
+ZIP-Datei noch entpackt werden.
+
+Für das Klonen mittels \href{https://git-scm.com/}{Git} muss nur folgender Befehl
+in der Kommandozeile ausgeführt werden.
+
+\begin{lstlisting}[style=tex]
+$ git clone https://github.com/AlexanderKaschta/WeidigWahl.git
+\end{lstlisting}
+
+Nun öffnet man den Ordner mit dem Quellcode. Dort sollte man folgende Ordnerstruktur vorfinden:
+
+\begin{multicols}{3}
+  \begin{itemize}
+    \item |core|
+    \item |css|
+    \item |docs|
+    \item |js|
+    \item |sql|
+    \item |uploads|
+    \item |webfonts|
+  \end{itemize}
+\end{multicols}
+
+\subsection{Datenbank}
+
+Man benötigt eine Datenbank für \name. Dazu benötigen wir entweder \href{https://mariadb.org/}{MariaDB}
+oder \href{https://www.mysql.com/}{MySQL}. Das ganze wurde mittels MariaDB entwickelt,
+da diese kompatibel zu MySQL sollte auch diese funktionieren. Dies wurde bis jetzt
+jedoch noch nicht getestet. Man könnte auch noch eine andere Datenbank verwenden,
+jedoch bräuchte man dafür den entsprechenden PDO-Treiber und müsste alle SQL-Befehle
+anpassen, sodass diese kompatibel mit der entsprechende Datenbank sind.
+
+Es kann für \name eine vorhandene Datenbank benutzt werden, wenn folgende Tabellen
+noch erstellt werden können bzw. noch nicht benutzt werden. Natürlich kann man
+auch eine komplett neue Datenbank erstellen.
+
+\begin{multicols}{3}
+  \begin{itemize}
+    \item |tbl_users|
+    \item |tbl_sportwahl|
+    \item |tbl_kurse|
+    \item |tbl_teilnehmer|
+    \item |tbl_ergebnisse|
+  \end{itemize}
+\end{multicols}
+
+Die entsprechende Datenbank wird dann mit \href{https://www.phpmyadmin.net/}{phpMyAdmin} geöffnet. Nun müssen die benötigten
+Tabellen erstellt werden. Alle SQL-Befehle zum erstellen der entsprechende Tabellen sind
+in der Datei |sql/setup.sql| dokumentiert. Diese Befehle kopiert man dann und führt sie
+über \href{https://www.phpmyadmin.net/}{phpMyAdmin} aus. Am Ende sollte die Datenbank
+dann alle fünf Tabellen enthalten.
+
+Nun muss man jetzt nur noch einen Benutzer mit Administratorrechten erstellen. Dazu muss
+dieser SQL-Befehl ausgeführt werden. Benutzername als auch das Passwort sollten
+dazu geändert werden.
+
+\begin{lstlisting}[language=SQL, breaklines=true]
+INSERT INTO tbl_users (vorname, nachname, benutzername, geburtsdatum, passwort, ist_aktiv, jahrgang, klasse, datum_erstellt, datum_letzte_anderung, kann_reset_anfordern, ist_admin) VALUES
+('Max', 'Mustermann', 'admin', '1970-01-01', 'passwort', 1, 99, 'Admins', NOW(), NOW(), 1, 1);
+\end{lstlisting}
+
+\subsection{Konfiguration}
+
+Für die gesamte Konfiguration von \name gibt es eine zentrale Konfigurationsdatei.
+Diese heißt |config.php| und liegt im |core/config.php|. In dieser Datei sind alle
+für den Betrieb notwendige Variablen abgebildet und werden dort entsprechend entnommen.
+
+\DescribeOption{Option}{Name der Option}{Standardwert}{
+  Eine kurze Beschreibung der Option.
+}
+
+Dabei ist die Eigenschaft im PHP-Code wie folgt abgebildet:
+
+\begin{lstlisting}[language=PHP, breaklines=true]
+define("Option", "Standardwert");
+\end{lstlisting}
+
+Folgende Eigenschaften gibt es:
+
+\DescribeOption{DB\_HOST}{Hostadresse der Datenbank}{localhost}{
+  In diesem Feld wird die Adresse zum Hostserver der Datenbank eingetragen. Da
+  sehr häufig der Webserver auf einem anderem Server läuft als die Datenbank, so
+  muss man passend angeben, wo die Datenbank zu erreichen ist. Der Standardwert
+  |localhost| ist die Hostadresse zum eigenem Rechner. Sie ist äquivalent zu
+  |127.0.0.1| .
+}
+
+\DescribeOption{DB\_USER}{Benutzername für die Datenbank}{root}{
+  Der Zugang zu einer Datenbank benötigt Zugangsdaten. Dabei handelt es sich um
+  einen Benutzernamen und das dazu passende Passwort. Bei \href{https://mariadb.org/}{MariaDB}
+  oder \href{https://www.mysql.com/}{MySQL} ist der Standartbenutzername nach der
+  Installation immer |root|, falls dies nicht geändert worden ist oder noch ein
+  weiterer Benutzer zur Datenbank hinzugefügt worden ist.
+}
+
+\DescribeOption{DB\_PASSWORT}{Passwort für die Datenbank}{\glqq\grqq}{
+  Der Zugang zu einer Datenbank benötigt Zugangsdaten. Dabei handelt es sich um
+  einen Benutzernamen und das dazu passende Passwort. Bei \href{https://mariadb.org/}{MariaDB}
+  oder \href{https://www.mysql.com/}{MySQL} ist das Standartpasswort für den Benutzer
+  |root| nach der Installation immer ein leere Zeichenkette. Falls dieses Passwort
+  geändert worden ist oder ein anderer Benutzer benutzt wird, dann muss dieses entsprechend
+  angepasst werden.
+}
+
+\DescribeOption{DB\_NAME}{Name für die Datenbank}{weidigwahl}{
+  Dies ist der Name der Datenbank, welche die vorher erstellt Tabellen enthält.
+  Da ein Datenbankserver mehrere Datenbank bereitgestellen kann, muss immer angegeben
+  werden, um welche Datenbank es sich konkret handelt.
+}
+
+\DescribeOption{PROJECT\_NAME}{Anzeigename für Titelleiste}{\name}{
+Diese Option spezifiziert den Namen der den Nutzer in der Titelleiste des Browsers
+bei der Benutzung angezeigt wird. Diese Eigenschaft muss nicht zwingen geändert
+werden.
+}
+
+\DescribeOption{PROJECT\_VERSION}{Versionsnummer der Software}{1.0.0}{
+Dies ist die Versionsnummer der aktuell installierten Software. Diese wird nur
+intern verwendet und \textbf{sollte nicht} geändert werden.
+}
+
+\DescribeOption{ADMINISTRATOR}{Name des Administrators}{Hr. Mustermann}{
+Dies ist der Name des Administrators, welcher auf der Hauptseite angezeigt wird.
+Er ist der Ansprechpartner an dem man sich wenden kann, falls man Probleme hat
+oder irgendwelche unerwarteten Fehler aufgetreten sind.
+}
+
+Sobald die Konfigurationsdatei entsprechend den Bedürfnissen mit einem Texteditor
+angepasst worden ist, kann man die Software bereitgestellt\footnote{veröffentlichen}.
+
+\subsection{Veröffentlichung}
+
+Für die Veröffentlichung muss nun einfach die gesamte Ordnerstruktur, die am Anfang
+herunterladen geladen worden ist, einfach nur noch auf den Server geladen werden.
+Wenn es ein Server ist, der auf dem eigenem System läuft, dann reicht es aus, den
+kompletten Inhalt des Ordners in den Serverordner zu kopieren. Falls man jedoch einen
+externen Server besitzt, dann wird man die Dateien höchstwahrscheinlich mittels
+FTP transferieren.
+
+\textbf{Wichtige Anmerkung}: Die Ordner |sql| und |docs| werden für den produktiven Betrieb nicht
+benötigt. Damit man ein sicheres System hat wird empfohlen die beiden Ordner nicht
+auf den Server zu laden oder wenn sie schon auf dem Server sind, sie von dort zu löschen.
+Dies ist Teil von \href{https://de.wikipedia.org/wiki/Security_through_obscurity}{Security by obscurity}.
+
+Nachdem man das gesamte System veröffentlicht hat, sollte man nochmal kontrollieren,
+ob man sich auf der Seite anmelden kann und alles funktioniert.
+
+\section{Nutzung}
+
+In diesem Kapitel der Dokumentation werden nun die einzelnen Aspekte und Ansichten
+in der Software beschreiben und dokumentiert. Dies sollte einem einen entsprechend
+guten Überblick über die Software geben.
+
+Alle Parameter werden in folgendem Format dargestellt:
+
+\DescribeOption{Stichwort}{Name}{Beispielwert für die Sportwahl}{
+  Zusammenfassung des Parameters inklusive seiner Bedeutung.
+}
+
+\subsection{Anmeldeseite}
+
+Wenn man \name aufruft, so kommt man am Anfang immer zur Anmeldeseite, wo man sich
+anmelden kann. Auf der Anmeldeseite kann man sich sowohl als normaler Nutzer als
+auch Administrator anmelden. Denn nach der entsprechend erfolgreichen Anmeldung
+wird man auf die entsprechend passende Seite automatisch weitergeleitet.
+
+Auf der Seite gibt es ein Feld für den Benutzernamen und ein weiteres für das
+Passwort des Nutzers. Darunter gibt es dann den Button\footnote{deut. Knopf}, womit
+man die Anmeldung ausführen kann.
+
+Falls man sein Passwort vergessen hat, dann kann man unten auf einen Hyperlink
+mit der Aufschrift \glqq Accountdaten vergessen\grqq drücken. Dies lässt eine kleine
+Box unten erscheinen, wo ein Hinweis dazu steht. Dazu soll man entweder seinen
+zuständigen Lehrer fragen oder sich an den Administrator der Platform wenden.
+
+Die Anmeldeseite kann auch Fehler ausgeben. Diese erscheinen immer unter der
+Navigationsleiste mit \name. Diese sind \textcolor{red}{\textbf{rot}} hinterlegt
+und enthalten entsprechend Textmeldungen. Falls ein Fehler bei der Anmeldung auftritt,
+dann bekommt man eine Meldung, dass die eingegebenen Daten nicht gefunden werden konnten.
+Andere Fehler sorgen für andere Fehlermeldungen, jedoch sind diese so verfasst,
+dass diese auf der Anmeldeseite relativ wenige Informationen ausgeben. Falls ein
+interner Fehler auftritt, dann kann es mehrere Ursachen haben. Entweder funktioniert
+die Verbindung zur Datenbank nicht oder andere Parameter wurde nicht übertragen.
+
+Es kann durchaus dazu kommen, dass wenn man eine Seite der \name direkt aufruft
+ohne die entsprechend Vorgaben zu erfüllen, dass dann die Session von einem
+gelöscht wird und man auf die Anmeldeseite automatisch weitergeleitet wird.
+Genaueres dazu ist im Abschnitt |Seitenpolicy| zu finden.
+
+\subsubsection{Abmeldung}
+
+Sobald man sich angemeldet hat, sieht man auf jeder der Seiten die Navigationsleiste
+mit der Aufschrift \name. Ganz rechts auf der Navigationsleiste steht der Text
+\glqq Logout\grqq, womit man sich abmelden kann.
+
+\subsection{Hauptseite}
+
+Die Hauptseite bekommt man nach der Anmeldung zu gesicht. Für einen Administrator
+sind dort alle Kurswahlen aufgelistet, die es gibt. Dazu gibt es noch zwei spezielle
+Einträge mit \glqq Neue Wahl!\grqq und \glqq Schüler\grqq. Bei der ersten Kachel
+kann man eine neue Kurswahl erstellen. Dies ist im Abschnitt |Wahl erstellen|
+dokumentiert. Mit der zweiten Kachel gelangt man zur |Teilnehmerverwaltung|.
+Dort kann man alle Nutzer der Platform einsehen und verwalten. Nur Nutzer mit
+Administratorrechten können auf die Teilnehmerverwaltung zugreifen und Wahlen erstellen,
+bearbeiten, auswerten und löschen.
+
+Normale Nutzer bekommen nur eine Liste der Kurswahlen, an denen sie teilnehmen oder
+schon teilgenommen haben. Falls man an keiner Kurswahl teilnimmt dann bekommt
+man den Text angezeigt, dass für einen keine Wahlen zur Verfügung stehen.
+
+\subsection{Wahl erstellen}
+
+Eine Kurswahl benötigt folgende Parameter:
+
+\DescribeOption{Name}{Name der Kurswahl}{Sportwahl 2020}{
+  Dies ist der Name der Kurswahl. Dieser wird dann auf der Kachel der Hauptseite
+  als auch an allen anderen Stellen angezeigt. Er dient dazu diese Wahl von
+  vergangenen Wahlen oder anderen Wahlen zu unterscheiden.
+}
+
+\DescribeOption{Beschreibung}{Beschreibung der Kurswahl}{Sportkurse für E1 bis Q4}{
+  Dies ist die Beschreibung der Kurswahl. Diese sollte kurz die Kurswahl beschreiben und
+  den Namen der Kurswahl unterstützen.
+}
+
+\DescribeOption{Wunschabgaben}{Anzahl der Schülerwünsche}{3}{
+  Die Anzahl der Schülerwünsche ist eine natürliche Zahl größer |0| und gibt an,
+  wie viele Wünsche jeder Schüler abgeben kann. Diese Zahl darf nicht kleiner
+  als die |Kurszuteilung| sein. Empfohlen wird außerdem, dass die Anzahl der Schülerwünsche
+  kleiner als die Anzahl der Kurse für die Wahl ist, da dies an anderen Stellen im
+  System Probleme verursacht.
+}
+
+\DescribeOption{Kurszuteilung}{Anzahl der Kurse, die ein Teilnehmer bekommen soll}{1}{
+  Die Anzahl der Schülerwünsche ist eine natürliche Zahl größer |0| und gibt an,
+  wie viele Kurse ein Schüler eingeteilt werden soll. Für die meisten Kurswahlen
+  reicht hier |1|, da jedoch auch Wahlen mit mehreren Kursen pro Nutzer möglich sein
+  sollen, muss dies hier angegeben werden.
+}
+
+\DescribeOption{Wahlbeginn}{Beginn der Wahl}{10.08.2020}{
+  Dies ist der Zeitpunkt ab dem eine Wahl für die Nutzer zugänglich ist. Der Nutzer
+  bekommt dennoch erst Zugriff zu der Wahl, wenn diese auch aktiviert ist, sodass
+  trotz des angegebenen Datums die Teilnehmer erst später auf die Wahl zugreifen
+  können. Die Teilnehmer bekommen eine Wahl zu sehen, sobald diese aktiviert ist
+  und der Teilnehmer der entsprechenden Kurswahl zugeteilt ist. Dennoch können
+  die Nutzer erst ab dem Beginn der Wahl ihre Stimmen abgeben. Das Datum des |Wahlbeginns|
+  muss kleiner als das Datum des |Wahlendes| sein.
+  Empfehlung: Geben sie jeder Wahl ca. eine Woche Zeit zur Stimmabgabe. Jedoch
+  kann diese schon früher erstellt und aktiviert werden, sodass die Schüler auch
+  schon früher Einsicht in die Wahl bekommen können.
+}
+
+\DescribeOption{Wahlende}{Ende der Wahl}{19.08.2020}{
+  Das Ende der Wahl ist der Zeitpunkt, an dem die Wahl beendet. Dies passiert
+  um 23:59, sodass die Teilnehmer den ganzen Tag noch nutzen können, um ihre Stimme
+  abzugeben oder ihren Stimmwunsch zu ändern. Der Zeitpunkt für das |Wahlende| muss
+  größer als der Zeitpunkt für den |Wahlbeginn| sein.
+}
+
+\subsection{Teilnehmerverwaltung}
+
+In der Teilnehmerverwaltung sieht man eine Liste mit allen Nutzern, die in dem
+System aktuell eingetragen sind. Dies sind nicht nur die Teilnehmer sondern auch
+alle Administratoren. In dieser Liste sind folgende Informationen aufgelistet:
+
+\begin{multicols}{3}
+  \begin{itemize}
+    \item |Nutzer-ID|
+    \item |Vorname|
+    \item |Nachname|
+    \item |Benutzername|
+    \item |Passwort|\footnote{Hier im Klartext}
+    \item |Aktiviert?|\footnote{Zeigt an, ob der Account aktiviert ist}
+    \item |Admin?|\footnote{Besitzt der Nutzer Administratorrechte}
+    \item |Jahrgang|
+    \item |Klasse|
+  \end{itemize}
+\end{multicols}
+
+Hinter jedem Nutzereintrag gibt es noch zwei Aktionsbutton. Der erste dient zur
+Bearbeitung des Nutzers und mit dem zweiten Button kann man den Nutzer entsprechend
+löschen. Diesen Nutzer kann man nur dann löschen, wenn dieser Nutzer nicht der
+eigene Nutzer ist. Dies soll verhindern, dass man als Administrator sich seinen
+Zugang zur Platform nicht versperrt.
+
+Zusätzlich gibt es am unteren Ende der Liste die Möglichkeiten neue Nutzer zu erstellen oder Nutzer
+automatisch aus einer CSV-Datei zu importieren. Ganz oben auf der Seite gibt es
+jedoch einen \textcolor{red}{\textbf{roten Button}} mit dem man alle Teilnehmer
+löschen kann, die keine Administratorrechte besitzen. Somit kann man mit dieser
+Funktion die Nutzerliste vor einem neuen Schuljahr aufräumen.
+
+\textit{Technische Notiz}: Es werden hier nur die Einträge auf der Tabelle |tbl_users|
+gelöscht, sodass im Fehlerfall man immer noch die Wahlergebnisse als auch die
+Teilnahmen des Nutzers besitzt.
+
+\subsection{Nutzer erstellen}
+
+Dieses Formular dient zur Erstellung von neuen Nutzern als auch der Bearbeitung
+von schon vorhandenen Nutzern. Dabei läuft beides bis auf eine Ausnahme identisch
+ab. Ein Nutzer wird nur dann erstellt oder aktualisiert, wenn die angegebenen Daten
+auch passen. Wenn irgendwo ein Fehler vorliegt, dann wird dieser angezeigt und man
+kann die Daten entsprechend korrigieren. Bei der Bearbeitung eines Nutzers werden
+die Änderungen nur dann übernommen, wenn man dies auch bestätigt. Man kann die Bearbeitung
+also jederzeit ohne jegliche Auswirkungen auf das System abbrechen.
+
+Folgende Informationen sind wichtig für die Erstellung und Bearbeitung von Nutzern:
+
+\DescribeOption{Vorname}{Vorname des Nutzers}{Max}{
+  Dies ist der Vorname eines Nutzers. Dieser darf nicht leer sein.
+}
+
+
+\subsubsection{CSV-Import}
+
+% Hier wird dokumentiert, wie der Import funktioniert
+
+\subsection{Seitenpolicy}
+
+Das System gibt Meldungen aus. Davon gibt es zwei Arten. Fehlermeldungen werden
+angezeigt, wenn ein Fehler aufgetreten ist. Diese sind \textcolor{red}{\textbf{rot}} hinterlegt.
+Zusätzlich gibt es noch Erfolgsmeldung, die angezeigt werden, wenn eine Operation
+erfolgreich durchgeführt worden ist. Diese sind \textcolor{green}{\textbf{grün}} hinterlegt.
+
+Falls man eine Seiten der \name ohne gültige Anmeldung aufruft, dann wird man immer
+auf die Anmeldeseite weitergeleitet. Das gleiche passiert auch, wenn auf einer der
+Seiten ein Fehler auftritt.
+
+Es können auch Nutzerfehler auftreten. Das kann ein fehlende oder eine ungültige
+Eingabe sein. Diese Fehler behandelt das System und gibt entsprechend Rückmeldung
+an den Nutzer. Dazu wird er auf die ursprüngliche Seite zurückgeleitet und sieht dort
+die Meldung.
+
+\section{Mitwirkende}
+
+Dieses Projekt wurde in Zusammenarbeit mit mehreren Personen entwickelt, jedoch werden diese aus Datenschutzgrüden
+her nicht veröffentlicht. Trotzdem ein Dankeschön an alle, die an diesem Projekt
+beteiligt waren.
+
+\section{Lizenzen}
+
+\name ist unter der MIT Lizenz veröffentlicht:
+
+\lstinputlisting[style=license]{LICENSE.txt}
+
+Da diese Software Komponenten enthält und benutzt, welche anderer Personen oder
+Entwickler erstellt haben, müssen auch deren Lizenzen aufgelistet werden. Diese
+sind nun in den Unterabschnitten aufgelistet. Alle Angaben sind ohne Gewähr.
+
+%Auflistung aller Teilkomponenten
+\subsection{Bootstrap 4.1}
+
+\lstinputlisting[style=license]{LICENSE_Bootstrap.txt}
+
+\subsection{Font Awesome}
+
+Die Lizenz ist in mehrere Teile unterteilt, die hier in den entsprechenden Unterpunkten
+gelistet werden. Die komplette Lizenz ist hier zu finden:
+
+\url{https://fontawesome.com/license/free}.
+
+\subsubsection*{Icons}
+CC BY 4.0 License (\url{https://creativecommons.org/licenses/by/4.0/})
+
+\begin{lstlisting}[style=license]
+In the Font Awesome Free download, the CC BY 4.0 license applies to all icons
+packaged as SVG and JS file types.
+\end{lstlisting}
+
+\subsubsection*{Fonts}
+SIL OFL 1.1 License (\url{https://scripts.sil.org/OFL})
+
+\begin{lstlisting}[style=license]
+In the Font Awesome Free download, the SIL OFL license applies to all icons
+packaged as web and desktop font files.
+\end{lstlisting}
+
+\subsubsection*{Code}
+MIT License (\url{https://opensource.org/licenses/MIT})
+
+\begin{lstlisting}[style=license]
+In the Font Awesome Free download, the MIT license applies to all non-font and
+non-icon files.
+\end{lstlisting}
+
+\subsection{tFPDF}
+
+Original author: Ian Back
+
+Maintainer: Tycho Veltmeijer
+
+License: LGPLv3
+
+\lstinputlisting[style=license]{lgpl-3.0.txt}
+
+\subsection{Popper.js}
+
+\lstinputlisting[style=license]{LICENSE_Popper.txt}
+
+\subsection{jQuery}
+
+\lstinputlisting[style=license]{LICENSE_jQuery.txt}
+
+\subsection{Chart.js}
+
+\lstinputlisting[style=license]{LICENSE_ChartsJs.txt}
+
+\section{Vorlage}
+
+Die Dokumentation verwendet die Schriftart
+\href{https://www.mozilla.org/en-US/styleguide/products/firefox-os/typeface/}
+{Fira Sans}, welche von Mozilla bereitgestellt wird und von
+\href{http://www.carrois.com/fira-3-1/}{Carrois} erstellt worden ist.
+
+Als Vorlage für diese Dokumentation diente die Dokumentation des Projekts \textbf{mtheme},
+welches auf \href{https://github.com/matze/mtheme}{GitHub} gefunden werden kann.
+
+\end{document}

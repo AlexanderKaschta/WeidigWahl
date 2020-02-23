@@ -30,6 +30,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
 VALUES (:vorname, :nachname, :username, :birth, :pw, :aktiv, :jahr, :klasse, NOW(), NOW(), 1, :admin)");
 
             //Check if all the required parameters are given for this action
+            //TODO: Make sure, that they are not Strings only containing whitespaces
             $vorname = checkParameter("vorname");
             $nachname = checkParameter("nachname");
             $benutzername = checkParameter("username");
