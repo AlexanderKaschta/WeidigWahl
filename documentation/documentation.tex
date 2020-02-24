@@ -223,6 +223,7 @@ Nun öffnet man den Ordner mit dem Quellcode. Dort sollte man folgende Ordnerstr
     \item |core|
     \item |css|
     \item |docs|
+    \item |documentation|
     \item |js|
     \item |sql|
     \item |uploads|
@@ -346,7 +347,7 @@ kompletten Inhalt des Ordners in den Serverordner zu kopieren. Falls man jedoch 
 externen Server besitzt, dann wird man die Dateien höchstwahrscheinlich mittels
 FTP transferieren.
 
-\textbf{Wichtige Anmerkung}: Die Ordner |sql| und |docs| werden für den produktiven Betrieb nicht
+\textbf{Wichtige Anmerkung}: Die Ordner |sql| und |documentation| werden für den produktiven Betrieb nicht
 benötigt. Damit man ein sicheres System hat wird empfohlen die beiden Ordner nicht
 auf den Server zu laden oder wenn sie schon auf dem Server sind, sie von dort zu löschen.
 Dies ist Teil von \href{https://de.wikipedia.org/wiki/Security_through_obscurity}{Security by obscurity}.
@@ -519,10 +520,83 @@ Folgende Informationen sind wichtig für die Erstellung und Bearbeitung von Nutz
   Dies ist der Vorname eines Nutzers. Dieser darf nicht leer sein.
 }
 
+\DescribeOption{Nachname}{Nachname des Nutzers}{Mustermann}{
+  Dies ist der Nachnamen eines Nutzers. Dieser darf nicht leer sein.
+}
+
+\DescribeOption{Benutzername}{Benutzername}{Max.Mustermann}{
+  Dies ist der Benutzername, mit dem sich der Nutzer dann anmelden wird.
+}
+
+\DescribeOption{Geburtsdatum}{Geburtsdatum des Nutzers}{01.01.2020}{
+  Dies ist das Geburtsdatum des Nutzers. Falls es zwei Nutzer mit dem gleichen
+  Namen gibt, dann sollte dies in dem unwahrscheinlichen Fall das entsprechende
+  Unterscheidungskriterium sein.
+}
+
+\DescribeOption{Passwort}{Passwort für den Nutzer}{passwort}{
+  Der Nutzer benötigt für die Anmeldung ein Passwort. Das Passwort darf nicht
+  leer sein und sollte mindestens |8| Zeichen lang sein.
+
+  \textbf{Anmerkung}: Das hier gezeigt Beispielpasswort ist in keinerlei Hinsicht
+  sicher und sollte niemals verwendet werden.
+}
+
+\DescribeOption{Aktiv}{Ist der Account aktiv?}{Ja}{
+  Dies ist eine Checkbox, womit mit man einstellen
+  kann, ob der Account wirklich aktiv ist. Wenn ein Haken da ist, dann ist bzw.
+  soll der Account aktiv sein. Wenn dort kein Haken zu sehen ist, dann ist der
+  Account nicht aktiv.
+}
+
+\DescribeOption{Jahrgang}{Jahrgang des Nutzer}{10}{
+  Für die Nutzer gibt es eine Möglichkeit den Jahrgang anzugeben. Diese Feld muss
+  auch entsprechend befüllt werden. Es dient dazu, dass man ganze Gruppen von
+  Schülern einfach zu einer Kurswahl hinzufügen kann. Dabei muss jedoch dafür
+  gesorgt werden, dass alle Jahrgangseinträge für den gleichen Jahrgang identisch
+  sind, denn nur dann funktioniert es einwandfrei. Das auch Administratoren
+  einen Jahrgang benötigen ist hier der \textit{Tipp}: Einfach eine entsprechend
+  große Nummer, wie die |100| oder so, nehmen und diese allen Administratoren
+  geben. Diese können entsprechend identifiziert werden und es fällt auf, dass
+  dies kein gewöhnlicher Jahrgang ist.
+}
+
+\DescribeOption{Klasse}{Klasse des Nutzer}{10E}{
+  Für die Nutzer gibt es eine Möglichkeit die Klasse anzugeben. Diese Feld muss
+  auch entsprechend befüllt werden. Es dient dazu, dass man ganze Gruppen von
+  Schülern einfach zu einer Kurswahl hinzufügen kann. Dabei muss jedoch dafür
+  gesorgt werden, dass alle Klassenseinträge für die gleiche Klasse identisch
+  sind, denn nur dann funktioniert es einwandfrei. Das auch Administratoren
+  eine Klasse benötigen ist hier der \textit{Tipp}: Hier einfach eine Text wie
+  |Admins| verwenden und schon hat man einen passenden Klassennamen.
+}
+
+\DescribeOption{Administrator}{Soll dieser Nutzer Administratorrechte besitzen}{Nein}{
+  Dies ist eine Checkbox, womit mit man einstellen kann, ob der Account
+  Administratorrechte besitzen soll. Wenn ein Haken da ist, dann ist bzw.
+  soll der Account diese Rechte haben. Wenn dort kein Haken zu sehen ist, dann ist der
+  Account ein normaler Nutzeraccount.
+}
 
 \subsubsection{CSV-Import}
 
-% Hier wird dokumentiert, wie der Import funktioniert
+Der CSV\footnote{Comma separated values - Durch Kommas getrennte Werte}-Import ist dazu entwickelt worden, dass man sehr schnell eine große
+Anzahl von Schülern in das System eintragen kann. Dies kann dadurch sinnvoll sein,
+dass es bereits entsprechende Listen mit den Daten gibt und diese nun damit
+genutzt werden können.
+
+Damit man Schüler importieren kann, benötigt man eine |CSV-Datei| mit folgender
+Formattierung:
+
+\begin{lstlisting}[style=tex]
+<Vorname>;<Nachname>;<Geburtsdatum>;<Jahrgang>;<Klasse/TG>
+\end{lstlisting}
+
+Wenn man sich für den CSV-Import entschieden hat, dann wird zu einem Upload-Formular
+weitergeleitet. Dort muss man die CSV-Datei entsprechend auswählen und hochladen.
+Es werden zwar in der Auswahl alle Dateitypen erlaubt, jedoch nimmt hier das
+System nur |txt|- und |csv|-Dateien an.
+
 
 \subsection{Seitenpolicy}
 
