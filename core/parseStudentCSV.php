@@ -30,6 +30,8 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_SESSION
             exit();
         }
 
+        //TODO: Insert error handling, to make sure, that even if the file is corrupt or invalid, the system doesn't crash and the file will be deleted safely for data protection.
+
         $handle = fopen($file, "r");
         if ($handle !== FALSE){
             while (($data = fgetcsv($handle,0, ";")) !== FALSE) {
@@ -41,6 +43,7 @@ VALUES (:vorname, :nachname, :username, :birth, :pw, 1, :jahr, :klasse, NOW(), N
 
                     $insert_query->bindParam(":vorname", $data[0]);
                     $insert_query->bindParam(":nachname", $data[1]);
+                    //TODO: Maybe redo username generator
                     $username = generateUsername($data[0], $data[1]);
                     $insert_query->bindParam(":username", $username);
                     try {
@@ -51,6 +54,7 @@ VALUES (:vorname, :nachname, :username, :birth, :pw, 1, :jahr, :klasse, NOW(), N
                         exit();
                     }
                     $insert_query->bindParam(":birth", $date->format('Y-m-d'));
+                    //TODO: Maybe redo password generator or add another possible simple password generator
                     $pw = generatePassword();
                     $insert_query->bindParam(":pw", $pw);
                     $insert_query->bindParam(":jahr", $data[3]);

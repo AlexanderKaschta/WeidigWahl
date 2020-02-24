@@ -351,6 +351,9 @@ FTP transferieren.
 benötigt. Damit man ein sicheres System hat wird empfohlen die beiden Ordner nicht
 auf den Server zu laden oder wenn sie schon auf dem Server sind, sie von dort zu löschen.
 Dies ist Teil von \href{https://de.wikipedia.org/wiki/Security_through_obscurity}{Security by obscurity}.
+Falls bei der Bereitstellung auch noch Ordner mit den Namen |.idea| oder |.git| auftauchen,
+dann können Sie diese auch entfernen. Diese werden nur für die Weiterentwicklung
+der Software benutzt und sind für die produktive Nutzung überflüssig.
 
 Nachdem man das gesamte System veröffentlicht hat, sollte man nochmal kontrollieren,
 ob man sich auf der Seite anmelden kann und alles funktioniert.
@@ -595,7 +598,17 @@ Formattierung:
 Wenn man sich für den CSV-Import entschieden hat, dann wird zu einem Upload-Formular
 weitergeleitet. Dort muss man die CSV-Datei entsprechend auswählen und hochladen.
 Es werden zwar in der Auswahl alle Dateitypen erlaubt, jedoch nimmt hier das
-System nur |txt|- und |csv|-Dateien an.
+System nur |txt|- und |csv|-Dateien an. Andere Dateitypen werden für entsprechende
+Fehlermeldungen sorgen.
+
+Nachdem Upload wird die Datei im Ordner |uploads| zwischengespeichert und verarbeitet.
+Dazu wird die Datei durchgeganen und jeder Nutzer in die Datenbank eingetragen.
+Der Benutzername als auch das Passwort werden automatisch generiert. Diese
+Accounts sind standardmäßig aktiviert und besitzen \textbf{keine} Administratorrechte.
+
+Sobald die Verarbeitung erfolgreich durchgeführt worden ist, wird die ursprüngliche
+hochgeladene und im Ordner |uploads| gespeicherte |CSV-Datei| gelöscht, sodass
+keinerlei Rückstände zurückbleiben. 
 
 
 \subsection{Seitenpolicy}
