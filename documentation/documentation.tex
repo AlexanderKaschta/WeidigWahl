@@ -608,7 +608,45 @@ Accounts sind standardmäßig aktiviert und besitzen \textbf{keine} Administrato
 
 Sobald die Verarbeitung erfolgreich durchgeführt worden ist, wird die ursprüngliche
 hochgeladene und im Ordner |uploads| gespeicherte |CSV-Datei| gelöscht, sodass
-keinerlei Rückstände zurückbleiben. 
+keinerlei Rückstände zurückbleiben. Tritt jedoch ein Fehler bei der Verarbeitung
+der |CSV-Datei|\footnote{Die Datei wird im Laufe des Uploads umbenannt, sodass sie nun \glqq students.*\grqq heißt.}
+auf, so kann es sein, dass diese nicht korrekt gelöscht wird. Nach der erfolgreichen
+Verarbeitung wird man wieder auf die Übersicht aller Nutzer weitergeleitet.
+
+\subsection{Verwaltung einer Wahl}
+
+\subsubsection{Teilnehmer hinzufügen}
+\subsubsection{Zusammenfassung hochladen}
+\subsubsection{Aktivierung einer Wahl}
+\subsubsection{Erstellung von Kursen}
+
+Für die Erstellung von Kursen werden folgende Informationen benötigt:
+
+\DescribeOption{Kursname}{Name für den Kurs}{Sportabitur}{
+  Der Name des Kurses soll den Kurs identifizieren. Dieser darf nicht leer sein
+  und sollte außerdem auch nicht zu lang sein.
+}
+
+\DescribeOption{Beschreibung}{Beschreibung des Kurses}{Verpflichtender Kurs für das Abitur in Sport}{
+  Die Beschreibung soll nochmal kurz zusammenfassen, worum es in diesem Kurs geht. Diese
+  darf nicht leer sein.
+}
+
+\DescribeOption{Lehrkraft}{Name der Lehrkraft}{Hr. Musterlehrer}{
+  Der Name der Lehrkraft soll dem Administrator dieser Wahl helfen, den Überblick
+  über alle Kurse zu behalten. Dieses Feld muss befüllt werden und es darf nicht
+  leer sein.
+  \textbf{Anmerkung}: Dieser Name wird nur im Administrationsbereich einer Kurswahl
+  angezeigt und soll dort für Übersichtlichkeit sorgen. Zu keinem Zeitpunkt im
+  Ablauf einer Wahl wird dieser Name einem normalen Nutzer angezeigt.
+}
+
+\subsubsection{Statistikansicht}
+
+\subsection{Auswertung einer Wahl}
+
+\subsection{Übersicht der Wahl für Teilnehmer}
+\subsection{Wahlfenster für die Schüler}
 
 
 \subsection{Seitenpolicy}
