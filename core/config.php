@@ -12,7 +12,7 @@ define("DB_NAME", "weidigwahl");
 
 define("PROJECT_NAME", "WeidigWahl");
 
-define("PROJECT_VERSION", "1.0.0");
+define("PROJECT_VERSION", "1.0.1");
 
 //Beispiel für die E-Mail-Adresse des Administrators
 define("ADMINISTRATOR", "Hr. Mustermann");

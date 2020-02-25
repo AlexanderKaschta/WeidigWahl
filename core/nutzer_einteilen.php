@@ -172,7 +172,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
 
                     for ($i = 1; $i < $anzahl_Benutzereingaben; $i++) {
 
-                        $nutzerAbfrage = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl=:id AND  kurs = :kurs AND akzeptiert = 1;");
+                        $nutzerAbfrage = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl=:id AND kurs = :kurs AND akzeptiert = 1;");
                         $nutzerAbfrage->bindParam(":id", $_GET['id']);
                         $nutzerAbfrage->bindParam(":kurs", $kurs['id']);
                         $nutzerAbfrage->execute();
@@ -183,24 +183,30 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['admin']) && isset($_GET['id
                             if (istUeberfullt($pdo, $kurs['id'], false)) {
                                 //Schaue, ob die nächste Stimme ein Kurs ist, der noch nicht überfüllt ist.
 
-                                $nextKurs = $pdo->prepare("SELECT * FROM tbl_ergebnisse WHERE sportwahl = :id AND stimmnummer = :nr AND benutzer = :nutzer;");
+                                $nextKurs = $pdo->prepare("SELECT * FROM tbl_ergebnisse, tbl_kurse WHERE tbl_ergebnisse.kurs = tbl_kurse.id AND tbl_ergebnisse.sportwahl = :id AND tbl_ergebnisse.stimmnummer = :nr AND tbl_ergebnisse.benutzer = :nutzer AND tbl_kurse.von = :von AND tbl_kurse.bis = :bis;");
                                 $nextKurs->bindParam(":id", $_GET['id']);
                                 $zahl = $i + 1;
                                 $nextKurs->bindParam(":nr", $zahl);
                                 $nextKurs->bindParam(":nutzer", $nutzer['benutzer']);
+                                $nextKurs->bindParam(":von", $zeitleiste['von']);
+                                $nextKurs->bindParam(":bis", $zeitleiste['bis']);
                                 $nextKurs->execute();
 
-                                //Spalte mit den entsprechenden Infos zum alternativen Kurs
-                                $nextKursRow = $nextKurs->fetch();
+                                $nextKursCount = $nextKurs->rowCount();
 
-                                if (istUeberfullt($pdo, (int)$nextKursRow['kurs'], true) == false) {
-                                    //Verschiebe den Schüler in den passenden Kurs
+                                if ($nextKursCount == 1) {
+                                    //Spalte mit den entsprechenden Infos zum alternativen Kurs
+                                    $nextKursRow = $nextKurs->fetch();
 
-                                    kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$kurs['id'], 0);
-                                    kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$nextKursRow['kurs'], 1);
+                                    if (istUeberfullt($pdo, (int)$nextKursRow['kurs'], true) == false) {
+                                        //Verschiebe den Schüler in den passenden Kurs
+
+                                        kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$kurs['id'], 0);
+                                        kursAndernTeilnehmer($pdo, (int)$_GET['id'], (int)$nutzer['benutzer'], (int)$nextKursRow['kurs'], 1);
+                                    }
+                                    $nextKurs->closeCursor();
+                                    $nextKursRow = null;
                                 }
-                                $nextKurs->closeCursor();
-                                $nextKursRow = null;
                                 $nextKurs = null;
                             }
                         }
