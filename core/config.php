@@ -17,3 +17,5 @@ define("PROJECT_VERSION", "1.0.1");
 //Beispiel für die E-Mail-Adresse des Administrators
 define("ADMINISTRATOR", "Hr. Mustermann");
 
+define("SCHULE", "Weidigschule");
+
