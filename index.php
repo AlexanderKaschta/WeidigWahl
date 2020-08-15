@@ -28,7 +28,7 @@ $pageTitle = "Login";
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
-            <a href="main.php" class="navbar-brand d-flex align-items-center">
+            <a href="index.php" class="navbar-brand d-flex align-items-center">
                 <strong><?php echo PROJECT_NAME;?></strong>
             </a>
         </div>
