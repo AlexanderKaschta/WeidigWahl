@@ -1,6 +1,7 @@
 Options -Indexes
 
-<Files "footer.php">
-  Order Allow,Deny
-  Deny from all
+Require all denied
+
+<Files action_page.php>
+	Require all granted
 </Files>

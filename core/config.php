@@ -19,11 +19,16 @@ define("PROJECT_VERSION", "1.1.0");
 // GitHub-Link
 define("GITHUB_LINK", "https://www.github.com/AlexanderKaschta/WeidigWahl");
 
+// SICHERHEIT
+
+// Passwortlänge
+define("PASSWORD_LENGTH", 8);
+
 // ALLGEMEIN
 define("PROJECT_NAME", "WeidigWahl");
 
 // Name der Schule, die das System verwendet
-define("SCHULE", "Weidigschule");
+define("SCHOOL", "Weidigschule");
 
 // Verantortlicher Administrator an der Schule für die Nutzung des Systens
 define("ADMINISTRATOR", "Hr. Mustermann");
