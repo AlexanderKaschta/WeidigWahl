@@ -13,9 +13,12 @@ define("DB_NAME", "weidigwahl");
 define("PROJECT_NAME", "WeidigWahl");
 
 define("PROJECT_VERSION", "1.0.1");
+define("RELEASE_YEAR", 2019);
 
 //Beispiel für die E-Mail-Adresse des Administrators
 define("ADMINISTRATOR", "Hr. Mustermann");
 
 define("SCHULE", "Weidigschule");
+define("HOSTER", "Weidigschule");
+
 

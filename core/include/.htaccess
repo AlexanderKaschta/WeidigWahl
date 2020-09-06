@@ -1,0 +1,6 @@
+Options -Indexes
+
+<Files "footer.php">
+  Order Allow,Deny
+  Deny from all
+</Files>

@@ -18,7 +18,7 @@ class Database
         } else{
             $dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8";
             try{
-                $this->pdo = new PDO($dsn, DB_USER, DB_PASSWORT, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                $this->pdo = new PDO($dsn, DB_USER, DB_PASSWORT, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false]);
                 $this->is_connected = true;
                 return $this->pdo;
             }catch (PDOException $ex){

@@ -225,11 +225,8 @@ tbl_teilnehmer.wahl_id = tbl_sportwahl.id AND tbl_teilnehmer.benutzer = :id AND 
 
 </main>
 
-<footer class="text-muted">
-    <div class="container">
-        <p>WeidigWahl | Ein Wahlsystem für die Weidigschule</p>
-    </div>
-</footer>
+<?php include "core/include/footer.php"; ?>
+
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/popper.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
