@@ -31,6 +31,7 @@ define("ADMINISTRATOR", "Hr. Mustermann");
 // Jahr, in dem das System in Betrieb genommen wurde
 define("RELEASE_YEAR", 2019);
 
+// Hoster der Seite
 define("HOSTER", "Test");
 
 // BENUTZEROBERFLÄCHE
@@ -38,9 +39,13 @@ define("HOSTER", "Test");
 //Soll der Link zum GitHub-Repository in Footer angezeigt werden
 define("SHOW_GITHUB", true);
 
-
 //Soll das Impressum angezeigt werden
 define("SHOW_IMPRINT", true);
+define("IMPRINT_LINK", "");
 
+define("SHOW_DSGVO", true);
+define("DSGVO_LINK", "");
 
+define("SHOW_SCHOOL_LINK", true);
+define("SCHOOL_LINK", "");
 
