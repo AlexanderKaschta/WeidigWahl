@@ -28,7 +28,7 @@ $width = 12 / $anzahl;
 <footer class="text-muted">
     <div class="container">
         <p><b>WeidigWahl | Ein Wahlsystem für die <?php echo SCHOOL; ?></b></p>
-        <p>&copy; <?php echo $creation_year . (($creation_year != $current_year) ? '-' . $current_year : '') . " " . HOSTER; ?></p>
+        <p>&copy; <?php echo $creation_year . (($creation_year != $current_year) ? '-' . $current_year : '') . " " . SCHOOL; ?></p>
         <hr class="col-xs-12">
         <div class="row">
             <?php

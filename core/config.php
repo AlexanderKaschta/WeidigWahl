@@ -36,8 +36,6 @@ define("ADMINISTRATOR", "Hr. Mustermann");
 // Jahr, in dem das System in Betrieb genommen wurde
 define("RELEASE_YEAR", 2019);
 
-// Hoster der Seite
-define("HOSTER", "Test");
 
 // BENUTZEROBERFLÄCHE
 
