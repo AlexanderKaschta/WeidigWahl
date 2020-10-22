@@ -4,6 +4,10 @@ A school course election system
 ## Status
 ![License](https://img.shields.io/badge/license-MIT-success.svg)
 ![Status](https://img.shields.io/badge/status-working-success.svg)
+![Version](https://img.shields.io/badge/Version-1.1.0-orange)
+
+The system if completely working and there are no known bugs. Be aware, that the 
+system and the documentation are in **German** and there is no translation yet.
 
 ## Description
 The goal was to create an online system, where teacher could easily create elections for
