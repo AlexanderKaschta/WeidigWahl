@@ -148,7 +148,7 @@
 
 \title{Technische Dokumentation der Software \name}
 \author{Alexander Kaschta \\ \url{https://github.com/AlexanderKaschta}}
-\date{1.0.1 ~---~ \today}
+\date{1.1.0 ~---~ \today}
 
 \begin{document}
 
@@ -326,7 +326,7 @@ bei der Benutzung angezeigt wird. Diese Eigenschaft muss nicht zwingen geändert
 werden.
 }
 
-\DescribeOption{PROJECT\_VERSION}{Versionsnummer der Software}{1.0.0}{
+\DescribeOption{PROJECT\_VERSION}{Versionsnummer der Software}{1.1.0}{
 Dies ist die Versionsnummer der aktuell installierten Software. Diese wird nur
 intern verwendet und \textbf{sollte nicht} geändert werden.
 }
@@ -335,6 +335,76 @@ intern verwendet und \textbf{sollte nicht} geändert werden.
 Dies ist der Name des Administrators, welcher auf der Hauptseite angezeigt wird.
 Er ist der Ansprechpartner an dem man sich wenden kann, falls man Probleme hat
 oder irgendwelche unerwarteten Fehler aufgetreten sind.
+}
+
+\DescribeOption{GITHUB\_LINK}{GitHub-Link}{https://www.github.com/AlexanderKaschta/WeidigWahl}{
+Dies ist der Link zum GitHub-Repository dieser Anwendung. Diese wird nur
+intern verwendet und \textbf{sollte nicht} geändert werden.\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{PASSWORD\_LENGTH}{Passwortlänge}{8}{
+Hiermit wird die Länge der automatisch generierten Passwörter festgelegt. Ist diese
+Variable nicht angegeben oder ist die eingetragene Länge kleiner als \textbf{8},
+so wird die Länge \textbf{8} verwendet. Ansonsten wird die angegebene Länge verwendet.
+Der ganze Mechanismus dient dazu, dass keine wirklich unsicheren Passwörter erstellt
+werden.\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SCHOOL}{Schule}{Weidigschule}{
+Dies ist der Name der Schule, die dieses System verwendet. Der Name wird nur im
+Footer verwendet und dort an zwei Stellen angezeigt. Einmal als Schule, die das
+System verwendet und das zweite Mal im Copyright-Vermerk.\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{RELEASE\_YEAR}{Installationsjahr}{2020}{
+Das ist das Jahr indem die Software installiert wurde. Diese wird im Footer verwendet
+und ist das Startjahr in der Copyrightangabe.\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SHOW\_GITHUB}{Soll der Link zu GitHub im Footer angezeigt werden?}{true}{
+Soll die Verlinkung zu GitHub angezeigt werden? Diese darf nur dann abgeschaltet werden,
+wenn die Namensnennung und Lizenznennung woanders auf der Seite erfolgt.\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SHOW\_IMPRINT}{Soll ein Link zum Impressum im Footer angezeigt werden?}{true}{
+Soll ein Link zum Impressum im Footer angezeigt werden?\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{IMPRINT\_LINK}{Link zum Impressum}{https://www.musterseite.de/impressum}{
+Dies ist der Link zum Impressum, welcher verwendet wird, um auf das Impressum
+zu verlinken. Dieser muss gesetzt sein, wenn der Link zum Impressum angezeigt werden
+ soll.\\
+ Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SHOW\_DSGVO}{Soll ein Link zur Datenschutzerklärung im Footer angezeigt werden?}{true}{
+Soll ein Link zur Datenschutzerklärung im Footer angezeigt werden?\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{DSGVO\_LINK}{Link zur Datenschutzerklärung}{https://www.musterseite.de/datenschutz}{
+Dies ist der Link zur Datenschutzerklärung, welcher verwendet wird, um auf die Datenschutzerklärung
+zu verlinken. Dieser muss gesetzt sein, wenn der Link zur Datenschutzerklärung angezeigt werden
+ soll.\\
+ Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SHOW\_SCHOOL\_LINK}{Soll ein Link zur Schule im Footer angezeigt werden?}{true}{
+Soll im Footer ein Link zur Schule angezeigt werden?\\
+Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
+}
+
+\DescribeOption{SCHOOL\_LINK}{Link zur Schule}{https://www.musterseite.de/}{
+Dies ist der Link zur Schule, welcher verwendet wird, um auf die Seite der Schule
+zu verlinken. Dieser muss gesetzt sein, wenn der Link zur Schule angezeigt werden
+ soll.\\
+ Neu ab \hyperref[subsec:ver_1.1.0]{Version 1.1.0}.
 }
 
 Sobald die Konfigurationsdatei entsprechend den Bedürfnissen mit einem Texteditor
@@ -1037,8 +1107,25 @@ Als Vorlage für diese Dokumentation diente die Dokumentation des Projekts \text
 welches auf \href{https://github.com/matze/mtheme}{GitHub} gefunden werden kann.
 
 \section{Versionsgeschichte}
+\label{sec:ver}
+
+\subsection*{Version 1.1.0}
+\label{subsec:ver_1.1.0}
+
+\begin{itemize}
+  \item Footer wird nun per \verb+include()+ eingebunden
+  \item Automatische Erneurung des Copyright
+  \item Verlinkung zum GitHub-Repository im Footer
+  \item Verlinkungsmöglichkeit im Footer für das Impressum
+  \item Verlinkungsmöglichkeit im Footer für die Datenschutzerklärung
+  \item Verlinkungsmöglichkeit im Footer zur Schule
+  \item Die Länge der automatisch generierten Passwörter kann nun eingestellt werden
+  \item Fehlerbehebung einer falschen Verlinkung auf der Startseite \verb+index.php+
+  \item Aktualisierung der \verb+.htaccess+-Dateien
+\end{itemize}
 
 \subsection*{Version 1.0.1}
+\label{subsec:ver_1.0.1}
 
 \begin{itemize}
   \item Einführung einer Dokumentation für das gesamte System
@@ -1051,6 +1138,7 @@ welches auf \href{https://github.com/matze/mtheme}{GitHub} gefunden werden kann.
 \end{itemize}
 
 \subsection*{Version 1.0.0}
+\label{subsec:ver_1.0.0}
 
 Ursprüngliche Einführung.
 

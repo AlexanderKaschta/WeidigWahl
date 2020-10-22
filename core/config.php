@@ -5,15 +5,50 @@
  * License: MIT License
  */
 
+// TECHNISCHE KONFIGURATION
+
+// Datenbank
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASSWORT", "");
 define("DB_NAME", "weidigwahl");
 
+// Versionsnummer
+define("PROJECT_VERSION", "1.1.0");
+
+// GitHub-Link
+define("GITHUB_LINK", "https://www.github.com/AlexanderKaschta/WeidigWahl");
+
+// SICHERHEIT
+
+// Passwortlänge
+define("PASSWORD_LENGTH", 8);
+
+// ALLGEMEIN
 define("PROJECT_NAME", "WeidigWahl");
 
-define("PROJECT_VERSION", "1.0.1");
+// Name der Schule, die das System verwendet
+define("SCHOOL", "Weidigschule");
 
-//Beispiel für die E-Mail-Adresse des Administrators
+// Verantortlicher Administrator an der Schule für die Nutzung des Systens
 define("ADMINISTRATOR", "Hr. Mustermann");
+
+// Jahr, in dem das System in Betrieb genommen wurde
+define("RELEASE_YEAR", 2019);
+
+
+// BENUTZEROBERFLÄCHE
+
+//Soll der Link zum GitHub-Repository in Footer angezeigt werden
+define("SHOW_GITHUB", true);
+
+//Soll das Impressum angezeigt werden
+define("SHOW_IMPRINT", true);
+define("IMPRINT_LINK", "");
+
+define("SHOW_DSGVO", true);
+define("DSGVO_LINK", "");
+
+define("SHOW_SCHOOL_LINK", true);
+define("SCHOOL_LINK", "");
 

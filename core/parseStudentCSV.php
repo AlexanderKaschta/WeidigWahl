@@ -91,7 +91,11 @@ function generateUsername($vorname, $nachname){
 }
 
 function generatePassword(){
-    $length = 8;
+    if (defined(PASSWORD_LENGTH) && PASSWORD_LENGTH >= 8) {
+        $length = PASSWORD_LENGTH;
+    } else {
+        $length = 8;
+    }
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-#@%$/()?.=*!';
     return substr( str_shuffle( $chars ), 0, $length );
 }

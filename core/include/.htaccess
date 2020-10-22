@@ -1,0 +1,7 @@
+Options -Indexes
+
+Require all denied
+
+<Files action_page.php>
+	Require all granted
+</Files>

@@ -23,7 +23,7 @@ $pageTitle = "Erfolg";
     <meta name="theme-color" content="#212529">
     <title><?php echo PROJECT_NAME . " | " . $pageTitle; ?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
@@ -43,11 +43,9 @@ $pageTitle = "Erfolg";
     <p>Alle deine Eingaben wurden erfolgreich im System gespeichert.</p>
     <a class="btn btn-primary" href="main.php">Zurück zur Übersicht</a>
 </div>
-<footer class="text-muted">
-    <div class="container">
-        <p>WeidigWahl | Ein Wahlsystem für die Weidigschule</p>
-    </div>
-</footer>
+<div class="mt-auto">
+    <?php include "core/include/footer.php"; ?>
+</div>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/popper.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
