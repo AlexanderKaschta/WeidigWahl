@@ -24,7 +24,7 @@ $pageTitle = "Login";
     <link rel="stylesheet" href="css/dashboard.css">
     <title><?php echo PROJECT_NAME . " | " . $pageTitle; ?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
@@ -74,6 +74,10 @@ $pageTitle = "Login";
             Solltest du dein Passwort vergessen, dann bitte wende dich an den Lehrer, der dir deine Zugangsdaten ausgehändigt hat. Alternativ kann dir auch <?php echo ADMINISTRATOR; ?> helfen.
         </div>
     </div>
+</div>
+
+<div class="mt-auto">
+    <?php include "core/include/footer.php"; ?>
 </div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>

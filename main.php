@@ -48,7 +48,7 @@ if (isset($_SESSION['loggedin'])){
     <meta name="theme-color" content="#212529">
     <title><?php echo PROJECT_NAME . " | " . $pageTitle; ?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
@@ -225,7 +225,9 @@ tbl_teilnehmer.wahl_id = tbl_sportwahl.id AND tbl_teilnehmer.benutzer = :id AND 
 
 </main>
 
-<?php include "core/include/footer.php"; ?>
+<div class="mt-auto">
+    <?php include "core/include/footer.php"; ?>
+</div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/popper.min.js"></script>

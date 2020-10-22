@@ -58,7 +58,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
     <meta name="theme-color" content="#212529">
     <title><?php echo PROJECT_NAME . " | " . $pageTitle; ?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
@@ -109,11 +109,9 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['benutzer']) && isset($_GET[
     </main>
 </div>
 
-<footer class="text-muted">
-    <div class="container">
-        <p>WeidigWahl | Ein Wahlsystem für die Weidigschule</p>
-    </div>
-</footer>
+<div class="mt-auto">
+    <?php include "core/include/footer.php"; ?>
+</div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
